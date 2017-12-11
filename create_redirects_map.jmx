@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jmeterTestPlan version="1.2" properties="3.2" jmeter="3.3 r1808647">
+  <hashTree>
+    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="Test Plan" enabled="true">
+      <stringProp name="TestPlan.comments"></stringProp>
+      <boolProp name="TestPlan.functional_mode">false</boolProp>
+      <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
+      <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+        <collectionProp name="Arguments.arguments"/>
+      </elementProp>
+      <stringProp name="TestPlan.user_define_classpath"></stringProp>
+    </TestPlan>
+    <hashTree>
+      <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+        <collectionProp name="Arguments.arguments">
+          <elementProp name="old_urls_file" elementType="Argument">
+            <stringProp name="Argument.name">old_urls_file</stringProp>
+            <stringProp name="Argument.value">K:\Users\maria.levchuk\Documents\AO\prod_urls.txt</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="new_urls_file" elementType="Argument">
+            <stringProp name="Argument.name">new_urls_file</stringProp>
+            <stringProp name="Argument.value">K:\Users\maria.levchuk\Documents\AO\test_urls.txt</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="result_file" elementType="Argument">
+            <stringProp name="Argument.name">result_file</stringProp>
+            <stringProp name="Argument.value">K:\Users\maria.levchuk\Documents\AO\result_urls.txt</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+        </collectionProp>
+      </Arguments>
+      <hashTree/>
+      <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV Data Set Config - Set NEW URLS file" enabled="true">
+        <stringProp name="filename">${new_urls_file}</stringProp>
+        <stringProp name="fileEncoding">UTF-8</stringProp>
+        <stringProp name="variableNames">new_url</stringProp>
+        <boolProp name="ignoreFirstLine">false</boolProp>
+        <stringProp name="delimiter">,</stringProp>
+        <boolProp name="quotedData">false</boolProp>
+        <boolProp name="recycle">false</boolProp>
+        <boolProp name="stopThread">true</boolProp>
+        <stringProp name="shareMode">shareMode.all</stringProp>
+      </CSVDataSet>
+      <hashTree/>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Thread Group" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">1</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">1</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <longProp name="ThreadGroup.start_time">1510746200000</longProp>
+        <longProp name="ThreadGroup.end_time">1510746200000</longProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration"></stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+      </ThreadGroup>
+      <hashTree>
+        <WhileController guiclass="WhileControllerGui" testclass="WhileController" testname="While Controller" enabled="true">
+          <stringProp name="WhileController.condition">!${old_url}</stringProp>
+        </WhileController>
+        <hashTree>
+          <CounterConfig guiclass="CounterConfigGui" testclass="CounterConfig" testname="Counter" enabled="true">
+            <stringProp name="CounterConfig.start">1</stringProp>
+            <stringProp name="CounterConfig.end"></stringProp>
+            <stringProp name="CounterConfig.incr">1</stringProp>
+            <stringProp name="CounterConfig.name">n</stringProp>
+            <stringProp name="CounterConfig.format"></stringProp>
+            <boolProp name="CounterConfig.per_user">false</boolProp>
+          </CounterConfig>
+          <hashTree/>
+          <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV Data Set Config - Set OLD URLS file" enabled="true">
+            <stringProp name="delimiter">,</stringProp>
+            <stringProp name="fileEncoding">UTF-8</stringProp>
+            <stringProp name="filename">${old_urls_file}</stringProp>
+            <boolProp name="ignoreFirstLine">false</boolProp>
+            <boolProp name="quotedData">false</boolProp>
+            <boolProp name="recycle">false</boolProp>
+            <stringProp name="shareMode">shareMode.all</stringProp>
+            <boolProp name="stopThread">true</boolProp>
+            <stringProp name="variableNames">old_url</stringProp>
+          </CSVDataSet>
+          <hashTree/>
+          <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="Take the article name" enabled="true">
+            <stringProp name="BeanShellSampler.query">import java.utils.*;
+import java.io.*;
+
+
+String old_url = vars.get(&quot;old_url&quot;);
+String[] old_url_parts = old_url.split(&quot;/&quot;);
+String article_name = old_url_parts[old_url_parts.length -1];
+vars.put(&quot;article_name&quot;, article_name);
+
+
+String n = vars.get(&quot;n&quot;);
+log.info(n  + &quot; article_name = &quot; + article_name);
+
+</stringProp>
+            <stringProp name="BeanShellSampler.filename"></stringProp>
+            <stringProp name="BeanShellSampler.parameters"></stringProp>
+            <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
+          </BeanShellSampler>
+          <hashTree/>
+          <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="Compare with NewUrls file" enabled="true">
+            <stringProp name="BeanShellSampler.query">import java.utils.*;
+import java.io.*;
+
+String path = vars.get(&quot;new_urls_file&quot;);
+FileReader fr = new FileReader(path);
+BufferedReader br = new BufferedReader(fr);
+
+String path_to_file = vars.get(&quot;result_file&quot;);
+File urls_file = new File(path_to_file);
+FileWriter fw = new FileWriter(path_to_file, true);
+BufferedWriter bw = new BufferedWriter(fw);
+
+String old = vars.get(&quot;old_url&quot;);
+String article_name = vars.get(&quot;article_name&quot;);
+
+String[] new_article_parts;
+String new_article_name;
+String sCurrentLine;
+
+String n = vars.get(&quot;n&quot;);  // helps to see the number of the row in excel file, and general amount of processed urls.
+
+while ((sCurrentLine = br.readLine()) != null) {
+				
+     			new_article_parts = sCurrentLine.split(&quot;/&quot;);
+          		 new_article_name = new_article_parts[new_article_parts.length -1];
+				
+				if (new_article_name.equals(article_name))
+				{
+					
+					log.info(n + &quot; Found equals&quot;); // In jmeter log below we can see the urls that haven&apos;t found any match.
+					
+					bw.write(old + &quot;	&quot; + sCurrentLine);
+					bw.newLine();
+					break;
+				}
+					
+			}
+
+				bw.close();
+				fw.close();
+
+				br.close();
+				fr.close();
+</stringProp>
+            <stringProp name="BeanShellSampler.filename"></stringProp>
+            <stringProp name="BeanShellSampler.parameters"></stringProp>
+            <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
+          </BeanShellSampler>
+          <hashTree/>
+          <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Constant Timer" enabled="false">
+            <stringProp name="ConstantTimer.delay">1000</stringProp>
+          </ConstantTimer>
+          <hashTree/>
+          <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If Controller" enabled="false">
+            <stringProp name="IfController.condition">&quot;${new_url}&quot;.indexOf(&quot;${article_name}&quot;) &gt; -1</stringProp>
+            <boolProp name="IfController.evaluateAll">false</boolProp>
+          </IfController>
+          <hashTree>
+            <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="Record urls to file" enabled="true">
+              <stringProp name="BeanShellSampler.query">import java.utils.*;
+import java.io.*;
+
+String path_to_file = vars.get(&quot;result_file&quot;);
+File urls_file = new File(path_to_file);
+FileWriter fw = new FileWriter(path_to_file, true);
+BufferedWriter bw = new BufferedWriter(fw);
+
+log.info(&quot;Found Equals&quot;);
+
+String temp = &quot;&quot;;
+String new_url = vars.get(&quot;new_url&quot;);
+String old = vars.get(&quot;old_url&quot;);
+String a_name = vars.get(&quot;article_name&quot;);
+
+	bw.write(old + &quot;	&quot; + new_url);
+	bw.newLine();
+
+
+	bw.close();
+	fw.close();</stringProp>
+              <stringProp name="BeanShellSampler.filename"></stringProp>
+              <stringProp name="BeanShellSampler.parameters"></stringProp>
+              <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
+            </BeanShellSampler>
+            <hashTree/>
+          </hashTree>
+        </hashTree>
+        <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="Take the article name" enabled="false">
+          <stringProp name="BeanShellSampler.query">import java.utils.*;
+import java.io.*;
+
+
+String old_url = vars.get(&quot;old_url&quot;);
+String[] old_url_parts = old_url.split(&quot;/&quot;);
+String article_name = old_url_parts[old_url_parts.length -1];
+vars.put(&quot;article_name&quot;, article_name);
+
+log.info(&quot;article_name = &quot; + article_name);
+
+</stringProp>
+          <stringProp name="BeanShellSampler.filename"></stringProp>
+          <stringProp name="BeanShellSampler.parameters"></stringProp>
+          <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
+        </BeanShellSampler>
+        <hashTree/>
+        <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="Compare with NewUrls file" enabled="false">
+          <stringProp name="BeanShellSampler.query">import java.utils.*;
+import java.io.*;
+
+String path = vars.get(&quot;new_urls_file&quot;);
+//File urls_file = new File(path);
+FileReader fr = new FileReader(path);
+BufferedReader br = new BufferedReader(fr);
+
+String path_to_file = vars.get(&quot;result_file&quot;);
+File urls_file = new File(path_to_file);
+FileWriter fw = new FileWriter(path_to_file, true);
+BufferedWriter bw = new BufferedWriter(fw);
+
+//String new_url = vars.get(&quot;new_url&quot;);
+String old = vars.get(&quot;old_url&quot;);
+
+String article_name = vars.get(&quot;article_name&quot;);
+String sCurrentLine;
+
+while ((sCurrentLine = br.readLine()) != null) {
+				if (sCurrentLine.contains(article_name))
+				{
+					log.info(&quot;Found Equals&quot;);
+					bw.write(old + &quot;	&quot; + new_url);
+					bw.newLine();
+
+					}
+			}
+
+				bw.close();
+				fw.close();
+
+				br.close();
+				fr.close();
+</stringProp>
+          <stringProp name="BeanShellSampler.filename"></stringProp>
+          <stringProp name="BeanShellSampler.parameters"></stringProp>
+          <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
+        </BeanShellSampler>
+        <hashTree/>
+        <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Constant Timer" enabled="false">
+          <stringProp name="ConstantTimer.delay">1000</stringProp>
+        </ConstantTimer>
+        <hashTree/>
+      </hashTree>
+      <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+        <boolProp name="ResultCollector.error_logging">false</boolProp>
+        <objProp>
+          <name>saveConfig</name>
+          <value class="SampleSaveConfiguration">
+            <time>true</time>
+            <latency>true</latency>
+            <timestamp>true</timestamp>
+            <success>true</success>
+            <label>true</label>
+            <code>true</code>
+            <message>true</message>
+            <threadName>true</threadName>
+            <dataType>true</dataType>
+            <encoding>false</encoding>
+            <assertions>true</assertions>
+            <subresults>true</subresults>
+            <responseData>false</responseData>
+            <samplerData>false</samplerData>
+            <xml>false</xml>
+            <fieldNames>true</fieldNames>
+            <responseHeaders>false</responseHeaders>
+            <requestHeaders>false</requestHeaders>
+            <responseDataOnError>false</responseDataOnError>
+            <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+            <assertionsResultsToSave>0</assertionsResultsToSave>
+            <bytes>true</bytes>
+            <sentBytes>true</sentBytes>
+            <threadCounts>true</threadCounts>
+            <idleTime>true</idleTime>
+            <connectTime>true</connectTime>
+          </value>
+        </objProp>
+        <stringProp name="filename"></stringProp>
+      </ResultCollector>
+      <hashTree/>
+    </hashTree>
+    <WorkBench guiclass="WorkBenchGui" testclass="WorkBench" testname="WorkBench" enabled="true">
+      <boolProp name="WorkBench.save">true</boolProp>
+    </WorkBench>
+    <hashTree/>
+  </hashTree>
+</jmeterTestPlan>
