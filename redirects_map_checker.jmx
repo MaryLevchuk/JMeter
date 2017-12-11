@@ -15,13 +15,12 @@
         <collectionProp name="Arguments.arguments">
           <elementProp name="domain" elementType="Argument">
             <stringProp name="Argument.name">domain</stringProp>
-            <stringProp name="Argument.value">www.fr.rockwool.be</stringProp>
+            <stringProp name="Argument.value"></stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="path for german symbols" elementType="Argument">
             <stringProp name="Argument.name">path for german symbols</stringProp>
             <stringProp name="Argument.value"></stringProp>
-            <stringProp name="Argument.desc">${__urldecode(${__urlencode(${old})})}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
         </collectionProp>
