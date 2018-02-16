@@ -46,7 +46,7 @@
         </WhileController>
         <hashTree>
           <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV Data Set Config" enabled="true">
-            <stringProp name="filename">K:\Users\maria.levchuk\Documents\Rockwool\Redirects\RW-UA\rw-ua.txt</stringProp>
+            <stringProp name="filename">K:\Users\maria.levchuk\Documents\Rockwool\Redirects\Grodan\grodan-ru.txt</stringProp>
             <stringProp name="fileEncoding">UTF-8</stringProp>
             <stringProp name="variableNames">old,new</stringProp>
             <stringProp name="delimiter">\t</stringProp>
@@ -129,7 +129,8 @@ return flag
 
 String url = vars.get(&quot;old&quot;);
 url = url.replaceAll(&quot;\&quot;&quot;, &quot;&quot;);
-url = url.replaceAll(&quot; &quot;, &quot;&quot;);
+url = url.replaceAll(&quot; &quot;, &quot;&quot;); // should be fixed. example www.rockwool.sk/technicka-podpora/kalkulacne-programy/vypocet hrubky izolacie kontaktnych fasad (etics)
+
 
 if (url.endsWith(&quot;/&quot;))
 {
@@ -203,7 +204,6 @@ vars.put(&quot;old&quot;, url);</stringProp>
           </value>
         </objProp>
         <stringProp name="filename"></stringProp>
-        <boolProp name="ResultCollector.success_only_logging">true</boolProp>
       </ResultCollector>
       <hashTree/>
     </hashTree>
